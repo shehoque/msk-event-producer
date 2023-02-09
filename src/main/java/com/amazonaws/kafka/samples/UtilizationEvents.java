@@ -52,7 +52,7 @@ public class UtilizationEvents {
         double cpuUtil = 55.0 + rand.nextInt(30);
         do {
 
-            event = genWorkspaceEvent(String.valueOf(workspaceId), modelId, stateId, version, memoryUtil, cpuUtil);
+            event = genWorkspaceEvent(String.valueOf(workspaceId), modelId, stateId, version, memoryUtil, cpuUtil, eventTimestamp);
             previousGlobalSeqNo = KafkaEventstreamClient.counter.incrementAndGet();
             String localEventFileLocation = "/tmp/WorkspaceEvent.txt";
             if (!KafkaEventstreamClient.nologgingEvents)
@@ -75,8 +75,8 @@ public class UtilizationEvents {
 
     }
 
-    private WorkspaceEvent genWorkspaceEvent(String workspaceId, String modelId, String stateId, String version, double memoryUtil, double cpuUtil) {
-        return WorkspaceEvent.newBuilder().setWorkspaceId(workspaceId).setModelId(modelId).setState(stateId).setVersion(version).setMemUtil(memoryUtil).setCpuUtl(cpuUtil).build();
+    private WorkspaceEvent genWorkspaceEvent(String workspaceId, String modelId, String stateId, String version, double memoryUtil, double cpuUtil, long eventTimestamp) {
+        return WorkspaceEvent.newBuilder().setWorkspaceId(workspaceId).setModelId(modelId).setState(stateId).setVersion(version).setMemUtil(memoryUtil).setCpuUtl(cpuUtil).setEventTimestamp(eventTimestamp).build();
     }
 
 }
